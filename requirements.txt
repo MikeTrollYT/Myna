@@ -1,0 +1,8 @@
+customtkinter
+faster-whisper
+keyboard
+numpy
+Pillow
+requests
+sounddevice
+soundfile

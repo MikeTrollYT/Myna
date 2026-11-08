@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --color-ink: #1c1e26;
+  --color-paper: #f6f4ee;
+  --color-myna: #f2b705;
+  --color-bark: #6b4a3b;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    min-width: 320px;
+  }
+  ::selection {
+    background: #f2b705;
+    color: #1c1e26;
+  }
+}
+
+/* Bird animation — kept exactly as the original */
+.bird {
+  overflow: visible;
+  --easing: cubic-bezier(0.45, 0, 0.2, 1);
+  /* Ciclo = 5s de reposo + 2.8s de movimiento (1.4s bajar + 1.4s subir) */
+  --bird-cycle: 7.8s;
+}
+.bird .legs {
+  transform-box: view-box;
+  transform-origin: 256px 450px;
+  animation: legs var(--bird-cycle) var(--easing) infinite;
+}
+.bird .body {
+  transform-box: view-box;
+  transform-origin: 256px 372px;
+  animation: body var(--bird-cycle) var(--easing) infinite;
+}
+.bird .head {
+  transform-box: view-box;
+  transform-origin: 360px 160px;
+  animation: head var(--bird-cycle) var(--easing) infinite;
+}
+@keyframes legs {
+  0%, 64.1026% { transform: scaleY(1); animation-timing-function: var(--easing); }
+  82.0513% { transform: scaleY(0.8); animation-timing-function: var(--easing); }
+  100% { transform: scaleY(1); }
+}
+@keyframes body {
+  0%, 64.1026% { transform: translateY(0) rotate(0); animation-timing-function: var(--easing); }
+  82.0513% { transform: translateY(14px) rotate(6deg); animation-timing-function: var(--easing); }
+  100% { transform: translateY(0) rotate(0); }
+}
+@keyframes head {
+  0%, 64.1026% { transform: translateY(0) rotate(0); animation-timing-function: var(--easing); }
+  82.0513% { transform: translateY(5px) rotate(9deg); animation-timing-function: var(--easing); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+/* Waveform bars */
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+.wave-bar {
+  transform-origin: center;
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+.caret {
+  animation: blink 1s steps(1) infinite;
+}
+
+.grain {
+  background-image: radial-gradient(rgba(28, 30, 38, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bird .legs, .bird .body, .bird .head, .wave-bar, .rise, .caret {
+    animation: none;
+  }
+}
