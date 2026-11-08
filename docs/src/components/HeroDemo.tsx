@@ -32,6 +32,27 @@ function speak(text: string, pitch: number, onEnd: () => void) {
   window.speechSynthesis.speak(u)
 }
 
+function playAudio(
+  source: string,
+  onEnded: () => void,
+  onFallback: () => void,
+): HTMLAudioElement {
+  const audio = new Audio()
+  let fallbackStarted = false
+  const fallback = () => {
+    if (fallbackStarted) return
+    fallbackStarted = true
+    onFallback()
+  }
+  audio.preload = 'auto'
+  audio.src = source
+  audio.addEventListener('ended', onEnded, { once: true })
+  audio.addEventListener('error', fallback, { once: true })
+  audio.load()
+  void audio.play().catch(fallback)
+  return audio
+}
+
 export function HeroDemo() {
   const [phase, setPhase] = useState<Phase>('idle')
   const [typed, setTyped] = useState('')
@@ -76,18 +97,26 @@ export function HeroDemo() {
     setTyped('')
     setPhase('recording')
 
-    const audio = new Audio(INPUT_AUDIO)
+    const audio = new Audio()
+    audio.preload = 'auto'
+    audio.src = INPUT_AUDIO
     audioRef.current = audio
     audio.addEventListener('loadedmetadata', () => {
       // Deja un pequeño margen para que el texto termine algo antes que la voz.
       typeOver(Math.max(800, audio.duration * 1000 * 0.9))
     })
-    audio.addEventListener('ended', finishRecording)
-    audio.play().catch(() => {
+    audio.addEventListener('ended', finishRecording, { once: true })
+    let fallbackStarted = false
+    const fallback = () => {
+      if (fallbackStarted) return
+      fallbackStarted = true
       audioRef.current = null
       typeOver(2000)
       speak(TRANSCRIPT, 1, finishRecording)
-    })
+    }
+    audio.addEventListener('error', fallback, { once: true })
+    audio.load()
+    void audio.play().catch(fallback)
   }
 
   const playOutput = () => {
@@ -99,13 +128,12 @@ export function HeroDemo() {
     stopAll()
     setPhase('speaking')
     const done = () => setPhase('ready')
-    const audio = new Audio(OUTPUT_AUDIO)
-    audioRef.current = audio
-    audio.addEventListener('ended', done)
-    audio.play().catch(() => {
+    const fallback = () => {
       audioRef.current = null
       speak(TRANSCRIPT, 0.4, done)
-    })
+    }
+    const audio = playAudio(OUTPUT_AUDIO, done, fallback)
+    audioRef.current = audio
   }
 
   const reset = () => {
