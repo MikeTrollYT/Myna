@@ -43,7 +43,8 @@ jobs:
       - name: Build
         working-directory: docs
         env:
-          VITE_BASE_PATH: /Myna/
+          # GitHub Pages custom domains serve the site from the root path.
+          VITE_BASE_PATH: /
         run: pnpm run build
 
       - name: Upload artifact
