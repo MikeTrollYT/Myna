@@ -15,6 +15,7 @@ import { HeroDemo } from './components/HeroDemo'
 import { Waveform } from './components/Waveform'
 
 const GITHUB = 'https://github.com/MikeTrollYT/Myna'
+const LOGO = `${import.meta.env.BASE_URL}logo.svg`
 
 const steps = [
   {
@@ -106,7 +107,7 @@ export default function App() {
       <header className="sticky top-0 z-20 border-b border-ink/5 bg-paper/75 backdrop-blur-xl">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-8">
           <a href="#" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight">
-            <img src="/logo.svg" alt="" className="size-9" />
+            <img src={LOGO} alt="" className="size-9" />
             Myna <span className="font-mono text-xs font-normal text-ink/50">STT</span>
           </a>
           <div className="flex items-center gap-1 text-sm text-ink/70">

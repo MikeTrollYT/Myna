@@ -4,8 +4,8 @@ import { Bird } from './Bird'
 import { Waveform } from './Waveform'
 
 /** Audio pregrabado de la simulación. Coloca los archivos en /public/audio. */
-const INPUT_AUDIO = '/audio/voz-original.mp3'
-const OUTPUT_AUDIO = '/audio/voz-myna.mp3'
+const INPUT_AUDIO = `${import.meta.env.BASE_URL}audio/voz-original.mp3`
+const OUTPUT_AUDIO = `${import.meta.env.BASE_URL}audio/voz-myna.mp3`
 const TRANSCRIPT = 'Hola, ¿me escucháis bien?'
 
 type Phase = 'idle' | 'recording' | 'ready' | 'speaking'
@@ -20,7 +20,7 @@ const STATUS: Record<Phase, string> = {
 /** Fallback si falta el mp3: usa la voz del navegador para que la demo siga funcionando. */
 function speak(text: string, pitch: number, onEnd: () => void) {
   if (!('speechSynthesis' in window)) {
-    window.setTimeout(onEnd, 2200)
+    globalThis.setTimeout(onEnd, 2200)
     return
   }
   const u = new SpeechSynthesisUtterance(text)
