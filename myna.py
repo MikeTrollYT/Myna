@@ -1680,7 +1680,7 @@ class App(ctk.CTk):
         footer_content = ctk.CTkFrame(footer, fg_color=estilos.TRANSPARENTE)
         footer_content.pack(anchor="center")
         ctk.CTkLabel(
-            footer_content, text="V.1 · ", **estilos.ETIQUETA["suave_centro"]
+            footer_content, text="Beta · ", **estilos.ETIQUETA["suave_centro"]
         ).pack(side="left")
         enlace = ctk.CTkLabel(
             footer_content, text="JC",
