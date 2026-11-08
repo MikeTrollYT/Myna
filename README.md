@@ -49,8 +49,8 @@ Myna STT es una aplicación de escritorio con interfaz gráfica que funciona com
 1. Descarga o clona el proyecto:
 
    ```bash
-   git clone <url-del-repositorio>
-   cd <carpeta-del-proyecto>
+   git clone https://github.com/MikeTrollYT/Myna.git
+   cd Myna
    ```
 
 2. Instala las dependencias:
@@ -70,14 +70,6 @@ Los archivos `myna.py` y `estilos.py` deben estar en la misma carpeta. Al abrir 
 ## Claves y tokens
 
 Myna STT necesita dos claves. Pégalas en **Configuración** o, si prefieres, defínelas como variables de entorno.
-
-```markdown
-# API HF (Descarga rapida)
-https://huggingface.co/settings/tokens
-
-# API Fish Audio
-https://fish.audio/es/app/api-keys/
-```
 
 | Clave | Dónde conseguirla | ¿Obligatoria? | Variable de entorno |
 | --- | --- | --- | --- |
@@ -146,15 +138,14 @@ Se descargan desde Hugging Face a la carpeta `models/` la primera vez que se usa
 
 ```
 .
-├── myna.py        # Aplicación: interfaz, Whisper y Fish Audio
-├── estilos.py      # Tema visual: colores, fuentes y medidas
-├── logo.svg        # Logo
-├── config.json     # Tus ajustes (se crea solo, no lo subas)
-├── models/         # Modelos Whisper descargados (se crea solo)
-└── covers/         # Fotos de las voces (se crea solo)
+├── fonts/
+├── img/
+├── .gitignore
+├── README.md
+├── estilos.py
+├── myna.py
+└── requirements.txt
 ```
-
-Para cambiar el aspecto de la aplicación solo tienes que editar `estilos.py`.
 
 ## Tecnologías
 
